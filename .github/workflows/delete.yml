@@ -6,11 +6,11 @@ on:
       repo:
         description: '清理的仓库(格式:用户名/仓库名)'
         required: true
-        default: 'Numbersf/Action-Build'
+        default: 'JiuGeFaCai/LBW'
       workflow_name:
         description: '清理的工作流名称'
         required: true
-        default: 'Build OnePlus_SukiSU Ultra All'
+        default: 'OnePlus SM8750 Build SuKiSu SUSFS'
       count:
         description: '最多清理的运行次数'
         required: false
