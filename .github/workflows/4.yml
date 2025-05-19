@@ -28,7 +28,7 @@ on:
         default: '-android15-8-g013ec21bba94-abogki383916444-byKUAN@ITXUU'
       BUILD_RUN:
         type: choice
-        description: "配置文件"
+        description: "RUN"
         required: true
         default: ubuntu-latest
         options:
@@ -37,7 +37,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ${{ github.event.inputs.BUILD_RUN }}
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_NOHASHDIR: "true"
