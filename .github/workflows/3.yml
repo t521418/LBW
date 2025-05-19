@@ -26,10 +26,18 @@ on:
         description: "修改内核名称"
         required: true
         default: '-android15-8-g013ec21bba94-abogki383916444-byKUAN@ITXUU'
+      BUILD_RUN:
+        type: choice
+        description: "RUN"
+        required: true
+        default: ubuntu-latest
+        options:
+          - ubuntu-latest
+          - self-hosted
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event.inputs.BUILD_RUN }}
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_NOHASHDIR: "true"
@@ -37,6 +45,7 @@ jobs:
       TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
     steps:
       - name: Maximize build space
+        if: ${{ github.event.inputs.BUILD_RUN == 'ubuntu-latest' }}
         uses: easimon/maximize-build-space@master
         with:
           root-reserve-mb: 8192
@@ -47,16 +56,19 @@ jobs:
           remove-codeql: 'true'
           
       - name: Configure Git
+        if: ${{ github.event.inputs.BUILD_RUN == 'ubuntu-latest' }}
         run: |
          git config --global user.name "build"
          git config --global user.email "123456@cnm.com"
 
       - name: Install dependencies
+        if: ${{ github.event.inputs.BUILD_RUN == 'ubuntu-latest' }}
         run: |
          sudo apt update && sudo apt upgrade -y
          sudo apt install -y python3 git curl
 
       - name: Install repo tool
+        if: ${{ github.event.inputs.BUILD_RUN == 'ubuntu-latest' }}
         run: |
          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/repo
          chmod a+x ~/repo
