@@ -43,12 +43,18 @@ on:
 jobs:
   build:
     runs-on: ${{ github.event.inputs.BUILD_RUN }}
+    strategy:
+      matrix:
+        config: ${{ github.event.inputs.FEIL }}
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_NOHASHDIR: "true"
       CCACHE_HARDLINK: "true"
       TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
     steps:
+      - name: Run selected config
+        run: echo "正在处理 ${{ matrix.config }}"
+        
       - name: Maximize build space
         if: ${{ github.event.inputs.BUILD_RUN == 'ubuntu-latest' }}
         uses: easimon/maximize-build-space@master
