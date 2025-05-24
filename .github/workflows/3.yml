@@ -44,7 +44,6 @@ jobs:
   build:
     strategy:
       matrix:
-        fail-fast: false  # 关闭快速失败
         FEIL: ["oneplus_13", "oneplus_ace5_pro", "oneplus_13t"]
             
     runs-on: ${{ github.event.inputs.BUILD_RUN }}
