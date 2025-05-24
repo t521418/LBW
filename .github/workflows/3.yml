@@ -212,11 +212,11 @@ jobs:
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
         with:
-         name: SuKiSu_${{ env.KSUVER }}_${{ matrix.FEIL }}
+         name: SuKiSu_${{ env.KSUVER }}
          path: ./AnyKernel3/*
          
       - name: Upload Image
         uses: actions/upload-artifact@v4
         with:
-         name: Image_SuKiSu_${{ env.KSUVER }}_${{ matrix.FEIL }}
+         name: Image_SuKiSu_${{ env.KSUVER }}
          path: kernel_workspace/kernel_platform/dist/Image
