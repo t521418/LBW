@@ -10,7 +10,7 @@ on:
         type: choice
         description: "配置文件"
         required: true
-        default: 'oneplus_13'
+        #default: 'oneplus_13'
         options:
           - oneplus_13
           - oneplus_ace5_pro
@@ -42,6 +42,15 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - FEIL: "oneplus_13"
+            
+          - FEIL: "oneplus_ace5_pro"
+            
+          - FEIL: "oneplus_13t"
+            
     runs-on: ${{ github.event.inputs.BUILD_RUN }}
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
