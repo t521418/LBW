@@ -44,6 +44,7 @@ jobs:
   build:
     strategy:
       matrix:
+        fail-fast: false  # 关闭快速失败
         FEIL: ["oneplus_13", "oneplus_ace5_pro", "oneplus_13t"]
             
     runs-on: ${{ github.event.inputs.BUILD_RUN }}
@@ -97,9 +98,10 @@ jobs:
          curl -LSs "https://raw.githubusercontent.com/ShirkNeko/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-dev
          cd ./KernelSU
          KSU_VERSION=$(expr $(/usr/bin/git rev-list --count main) "+" 10606)
-         echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
+         echo "KSUVER=${KSU_VERSION}_${{ matrix.FEIL }}" >> $GITHUB_ENV
          export KSU_VERSION=$KSU_VERSION
          sed -i "s/DKSU_VERSION=12800/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile
+         
         
       - name: Set up susfs
         run: |
@@ -220,11 +222,11 @@ jobs:
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
         with:
-         name: SuKiSu_${{ env.KSUVER }}_${{ github.event.inputs.FEIL }}
+         name: SuKiSu_${{ env.KSUVER }}_${{ matrix.FEIL }}
          path: ./AnyKernel3/*
          
       - name: Upload Image
         uses: actions/upload-artifact@v4
         with:
-         name: Image_SuKiSu_${{ env.KSUVER }}_${{ github.event.inputs.FEIL }}
+         name: Image_SuKiSu_${{ env.KSUVER }}_${{ matrix.FEIL }}
          path: kernel_workspace/kernel_platform/dist/Image
