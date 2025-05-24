@@ -6,15 +6,6 @@ on:
         description: "分支"
         required: true
         default: 'sm8750'
-      FEIL:
-        type: choice
-        description: "配置文件"
-        required: true
-        #default: 'oneplus_13'
-        options:
-          - oneplus_13
-          - oneplus_ace5_pro
-          - oneplus_13t
       CPUD:
         description: "处理器代号"
         required: true
