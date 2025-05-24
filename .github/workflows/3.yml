@@ -86,7 +86,7 @@ jobs:
       - name: Initialize repo and sync
         run: |
          mkdir kernel_workspace && cd kernel_workspace
-         repo init -u https://github.com/JiuGeFaCai/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ github.event.inputs.FEIL }}.xml --depth=1
+         repo init -u https://github.com/JiuGeFaCai/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ matrix.FEIL }}.xml --depth=1
          repo --trace sync -c -j$(nproc --all) --no-tags
          rm kernel_platform/common/android/abi_gki_protected_exports_* || echo "No protected exports!"
          rm kernel_platform/msm-kernel/android/abi_gki_protected_exports_* || echo "No protected exports!"
@@ -121,7 +121,7 @@ jobs:
            cp ../sturdy-journey/fix.patch ./common/
            cd ./common
 
-           if [ "${{ github.event.inputs.FEIL }}" != "oneplus_13t" ]; then
+           if [ "${{ matrix.FEIL }}" != "oneplus_13t" ]; then
            sed -i 's/-32,12 +32,38/-32,11 +32,37/g' 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch
            sed -i '/#include <trace\/hooks\/fs.h>/d' 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch
            fi
@@ -192,7 +192,7 @@ jobs:
       - name: Set build timestamp
         run: |         
          export SOURCE_DATE_EPOCH=$(date -d "2024-12-17 23:36:49 UTC" +%s)
-         if [ "${{ github.event.inputs.FEIL }}" = "oneplus_13t" ]; then
+         if [ "${{ matrix.FEIL }}" = "oneplus_13t" ]; then
          export SOURCE_DATE_EPOCH=$(date -d "2025-1-20 03:24:58 UTC" +%s)
          fi
          echo "SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH" >> $GITHUB_ENV
