@@ -9,7 +9,7 @@ on:
       FEIL:
         type: choice
         description: "配置文件"
-        #required: true
+        required: true
         #default: 'oneplus_13'
         options:
           - oneplus_13
