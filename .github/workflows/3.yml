@@ -37,18 +37,27 @@ on:
         required: true
         default: false
 
+      BUILD_RUN:
+        type: choice
+        description: "RUN"
+        required: true
+        default: ubuntu-latest
+        options:
+          - ubuntu-latest
+          - self-hosted
 jobs:
   build:
     strategy:
       matrix:
         FEIL: ["oneplus_13", "oneplus_ace5_pro", "oneplus_13t"]
-        
-    runs-on: ubuntu-latest
+            
+    runs-on: ${{ github.event.inputs.BUILD_RUN }}
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_NOHASHDIR: "true"
       CCACHE_HARDLINK: "true"
-    steps:     
+      TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+    steps:
       - name: Maximize build space
         if: ${{ github.event.inputs.BUILD_RUN == 'ubuntu-latest' }}
         uses: easimon/maximize-build-space@master
